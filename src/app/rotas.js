@@ -15,15 +15,31 @@ module.exports = (app) => {
 
         const livroDao = new LivroDao(db);
 
-        livroDao.lista((err, resultado) => {
+        livroDao.lista().then((result) => {
             res.marko(
                 require('../app/views/lista/lista.marko'),
                 {
-                    livros: resultado
+                    livros: result
                 }
             )
-        });
-
-
+        })
+        .catch(err => console.log(err));
     });
+
+
+    app.get('/livros/form', (req, res) => {
+        res.marko(require('../app/views/cadastro/form.marko'));
+    });
+
+    app.post('/livros', (req, res) => {
+        
+        const livroDao = new LivroDao(db);
+        const livro = req.body;
+
+        livroDao.criar(livro).then((result) => {
+            
+        })
+        .catch(err => console.log(err));
+    });
+
 }

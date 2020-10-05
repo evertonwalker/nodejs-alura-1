@@ -1,14 +1,17 @@
 class LivroDao {
-    constructor(db){
+    constructor(db) {
         this._db = db;
     }
 
-    lista(callBack) {
-        this._db.all('select * from livros', (err, result) => {
-            callBack(err, result);
+    lista() {
+
+        return new Promise((resolve, reject) => {
+            this._db.all('select * from livros', (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
         });
     }
-
 }
 
 module.exports = LivroDao;
